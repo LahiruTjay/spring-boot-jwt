@@ -14,11 +14,13 @@ public class UserServiceImpl implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-        return new User("batman", "{noop}password", AuthorityUtils.createAuthorityList("ROLE_USER")); // noop is for password encoder (look it up)
+
+        SystemUser systemUser = loadSystemUserByUsername(username);
+        return new User(systemUser.getUsername(), systemUser.getPassword(), AuthorityUtils.createAuthorityList("ROLE_USER"));
     }
 
     public SystemUser loadSystemUserByUsername(String username) {
-        return null;
+        return new SystemUser("batman", "{noop}password"); // noop is for password encoder (look it up)
     }
 
 }
