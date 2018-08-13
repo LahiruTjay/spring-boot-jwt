@@ -5,6 +5,10 @@ public class SystemUser {
     private String username;
     private String password;
 
+    public SystemUser() {
+        super();
+    }
+
     public SystemUser(String username, String password) {
         super();
         this.username = username;

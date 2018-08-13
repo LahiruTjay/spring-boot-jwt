@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import com.example.jwt.entity.SystemUser;
 
 @Service
-public class UserServiceImpl implements UserDetailsService {
+public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
