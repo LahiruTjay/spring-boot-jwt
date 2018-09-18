@@ -24,12 +24,12 @@ public class UserController {
     
     @GetMapping("/admin/name")
     ResponseEntity<String> test3() {
-        return new ResponseEntity<String>("Test Name", HttpStatus.OK);
+        return new ResponseEntity<String>("Test 3 Name", HttpStatus.OK);
     }
     
     @GetMapping("/admin/age")
     ResponseEntity<String> test4() {
-        return new ResponseEntity<String>("Test Age", HttpStatus.OK);
+        return new ResponseEntity<String>("Test 4 Age", HttpStatus.OK);
     }
 
 }
