@@ -1,5 +1,9 @@
 package com.example.jwt.repository;
 
-public interface AuthorityDAO {
+import org.springframework.data.jpa.repository.JpaRepository;
+
+import com.example.jwt.entity.Authority;
+
+public interface AuthorityDAO extends JpaRepository<Authority, Long> {
 
 }
