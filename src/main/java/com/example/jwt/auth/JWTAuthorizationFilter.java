@@ -13,7 +13,6 @@ import org.springframework.security.core.context.SecurityContextHolder;
 import org.springframework.security.core.userdetails.UserDetails;
 import org.springframework.security.web.authentication.www.BasicAuthenticationFilter;
 
-import com.example.jwt.entity.SystemUser;
 import com.example.jwt.service.CustomUserDetailsService;
 
 import io.jsonwebtoken.Jwts;
@@ -37,7 +36,8 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
         }
 
         UsernamePasswordAuthenticationToken usernamePasswordAuth = getAuthenticationToken(request);
-        SecurityContextHolder.getContext().setAuthentication(usernamePasswordAuth);
+        SecurityContextHolder.getContext()
+            .setAuthentication(usernamePasswordAuth);
         chain.doFilter(request, response);
     }
 
@@ -54,9 +54,9 @@ public class JWTAuthorizationFilter extends BasicAuthenticationFilter {
             .getSubject();
 
         UserDetails userDetails = customUserDetailsService.loadUserByUsername(username);
-        SystemUser systemUser = customUserDetailsService.loadSystemUserByUsername(username);
+        // SystemUser systemUser = customUserDetailsService.loadSystemUserByUsername(username);
 
-        return username != null ? new UsernamePasswordAuthenticationToken(systemUser, null, userDetails.getAuthorities()) : null;
+        return username != null ? new UsernamePasswordAuthenticationToken(userDetails, null, userDetails.getAuthorities()) : null;
     }
 
 }
