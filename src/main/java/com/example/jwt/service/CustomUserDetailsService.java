@@ -27,23 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
-
-        //SystemUser systemUser = loadSystemUserByUsername(username);
-        
         return loadSystemUserByUsername(username);
-        //return new User(systemUser.getUsername(), systemUser.getPassword(), AuthorityUtils.createAuthorityList("ROLE_USER")); // todo - get the user from the DB
     }
 
-    public UserDetails loadSystemUserByUsername(String username) {
-
+    private UserDetails loadSystemUserByUsername(String username) {
         SystemUser systemUser = systemUserDAO.findByUsername(username);
         List<GrantedAuthority> authorityList = new ArrayList<>();
         roleAuthorityDAO.getRoleAuthoriyByRole(systemUser.getRole())
-            .forEach(role -> authorityList.add(new SimpleGrantedAuthority(role.getAuthority()
-                .getAuthority())));
-
-        return new User(systemUser.getUsername(), systemUser.getPassword(), authorityList);
-        // return new SystemUser("batman", "{noop}password"); // noop is for password encoder (look it up)
+            .forEach(role -> authorityList.add(new SimpleGrantedAuthority(role.getAuthority().getAuthority())));
+        return new User(systemUser.getUsername(), "{noop}" + systemUser.getPassword(), authorityList);
     }
-
 }
