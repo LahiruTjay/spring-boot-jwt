@@ -27,15 +27,14 @@ public class CustomUserDetailsService implements UserDetailsService {
     @Override
     public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
         SystemUser systemUser = loadSystemUserByUsername(username);
-        SystemUser systemUser2 =  systemUserDAO.findByUsername(username);
-        List<RoleAuthority> roles = roleAuthorityDAO.getRoleAuthoriyByRole(systemUser2.getRole());
-        
-        System.out.println(roles.toString());
-        
         return new User(systemUser.getUsername(), systemUser.getPassword(), AuthorityUtils.createAuthorityList("ROLE_USER")); // todo - get the user from the DB
     }
 
     public SystemUser loadSystemUserByUsername(String username) {
+        
+        SystemUser systemUser2 =  systemUserDAO.findByUsername(username);
+        List<RoleAuthority> roles = roleAuthorityDAO.getRoleAuthoriyByRole(systemUser2.getRole());
+        
         return new SystemUser("batman", "{noop}password"); // noop is for password encoder (look it up)
     }
 
