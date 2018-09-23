@@ -33,8 +33,7 @@ public class CustomUserDetailsService implements UserDetailsService {
     private UserDetails loadSystemUserByUsername(String username) {
         SystemUser systemUser = systemUserDAO.findByUsername(username);
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        roleAuthorityDAO.getRoleAuthoriyByRole(systemUser.getRole())
-            .forEach(role -> authorityList.add(new SimpleGrantedAuthority(role.getAuthority().getAuthority())));
+        roleAuthorityDAO.getRoleAuthoriyByRole(systemUser.getRole()).forEach(role -> authorityList.add(new SimpleGrantedAuthority(role.getAuthority().getAuthority())));
         return new User(systemUser.getUsername(), "{noop}" + systemUser.getPassword(), authorityList);
     }
 }
