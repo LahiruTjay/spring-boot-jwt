@@ -1,7 +1,7 @@
 package com.example.jwt.service;
 
-import java.util.ArrayList;
 import java.util.List;
+import java.util.stream.Collectors;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.GrantedAuthority;
@@ -32,8 +32,10 @@ public class CustomUserDetailsService implements UserDetailsService {
 
     private UserDetails loadSystemUserByUsername(String username) {
         SystemUser systemUser = systemUserDAO.findByUsername(username);
-        List<GrantedAuthority> authorityList = new ArrayList<>();
-        roleAuthorityDAO.getRoleAuthoriyByRole(systemUser.getRole()).forEach(role -> authorityList.add(new SimpleGrantedAuthority(role.getAuthority().getAuthority())));
+        List<GrantedAuthority> authorityList = roleAuthorityDAO.getRoleAuthoriyByRole(systemUser.getRole())
+            .stream()
+            .map(roleAuthority -> new SimpleGrantedAuthority(roleAuthority.getAuthority().getAuthority()))
+            .collect(Collectors.toList());
         return new User(systemUser.getUsername(), "{noop}" + systemUser.getPassword(), authorityList);
     }
 }
